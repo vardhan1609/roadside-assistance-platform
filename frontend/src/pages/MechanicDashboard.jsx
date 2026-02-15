@@ -267,7 +267,7 @@ export default function MechanicDashboard() {
           {req.estimatedCost && (
             <div style={{ marginBottom: 10 }}>
               <span className="cost-tag">Est. ₹{req.estimatedCost}</span>
-              {req.finalCost && <span style={{ marginLeft: 12, color: 'var(--green)', fontWeight: 700 }}>Final: ${req.finalCost}</span>}
+              {req.finalCost && <span style={{ marginLeft: 12, color: 'var(--green)', fontWeight: 700 }}>Final: ₹{req.finalCost}</span>}
             </div>
           )}
 

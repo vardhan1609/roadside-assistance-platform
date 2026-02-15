@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.js';
 import requestRoutes from './routes/requests.js';
 import adminRoutes from './routes/admin.js';
 import mechanicRoutes from './routes/mechanic.js';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -27,8 +28,40 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Roadside Assistance API Running' });
 });
 
+
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => {
+//     console.log('Connected to MongoDB Atlas');
+//     const PORT = process.env.PORT || 5000;
+//     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//   })
+//   .catch(err => {
+//     console.error('MongoDB connection error:', err.message);
+//     process.exit(1);
+//   });
+
+function getEnvVariable(key) {
+  const secretPath = `/run/secrets/${key.toLowerCase()}`;
+  
+  // If Docker secret exists, use it
+  if (fs.existsSync(secretPath)) {
+    return fs.readFileSync(secretPath, 'utf8').trim();
+  }
+
+  // Otherwise fallback to environment variable (.env)
+  return process.env[key];
+}
+
+const mongoURI = getEnvVariable('MONGO_URI');
+
+if (!mongoURI) {
+  console.error('MONGO_URI not found in environment variables or Docker secrets');
+  process.exit(1);
+}
+
+// Connect to MongoDB
+mongoose.connect(mongoURI)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
     const PORT = process.env.PORT || 5000;

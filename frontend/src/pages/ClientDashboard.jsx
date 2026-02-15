@@ -50,8 +50,8 @@ function RequestCard({ req, onCancel, onClick }) {
       </div>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
         <span className="chip">{SERVICE_TYPES.find(s => s.value === req.serviceType)?.icon} {req.serviceType?.replace('_', ' ')}</span>
-        {req.estimatedCost && <span className="cost-tag" style={{ fontSize: 14 }}>Est. ${req.estimatedCost}</span>}
-        {req.mechanic && <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>🔧 {req.mechanic.name}</span>}
+        {req.estimatedCost && <span className="cost-tag" style={{ fontSize: 14 }}>Est. ₹{req.estimatedCost}</span>}
+        {req.mechanic && <span style={{ fontSize: 12, color: 'var(--text-dim)' }}> {req.mechanic.name}</span>}
       </div>
       {['pending', 'accepted'].includes(req.status) && (
         <div className="request-actions" onClick={e => e.stopPropagation()}>
@@ -216,7 +216,6 @@ function RequestsList({ requests, loading, onCancel, onRefresh, onSelectReq }) {
         <div style={{ textAlign: 'center', padding: 40 }}><span className="spinner" style={{ width: 32, height: 32, borderWidth: 3, margin: '0 auto', display: 'block' }} /></div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📋</div>
           <div className="empty-title">No requests found</div>
           <div className="empty-desc">No {filter !== 'all' ? filter : ''} requests to display</div>
         </div>
@@ -243,7 +242,7 @@ function RequestDetail({ req, onBack, onCancel }) {
         <div className="detail-grid">
           <div>
             <div className="info-row"><span className="info-row-icon"><Car size={14} /></span><span className="info-row-label">Vehicle</span><span className="info-row-value">{req.vehicleType} — {req.vehicleModel || 'N/A'}</span></div>
-            <div className="info-row"><span className="info-row-icon">🔧</span><span className="info-row-label">Service</span><span className="info-row-value">{req.serviceType?.replace('_', ' ')}</span></div>
+            <div className="info-row"><span className="info-row-label">Service</span><span className="info-row-value">{req.serviceType?.replace('_', ' ')}</span></div>
             <div className="info-row"><span className="info-row-icon"><Clock size={14} /></span><span className="info-row-label">Created</span><span className="info-row-value">{new Date(req.createdAt).toLocaleString()}</span></div>
             {req.vehiclePlate && <div className="info-row"><span className="info-row-icon">🪪</span><span className="info-row-label">Plate</span><span className="info-row-value">{req.vehiclePlate}</span></div>}
           </div>
