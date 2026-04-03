@@ -35,7 +35,7 @@ export default function AuthPage() {
         }
         user = await signup(payload);
       }
-      toast.success(`Welcome${user.name ? `, ${user.name.split(' ')[0]}` : ''}! 🚗`);
+      toast.success(`Welcome${user.name ? `, ${user.name.split(' ')[0]}` : ''}!`);
       if (user.role === 'admin') navigate('/admin');
       else if (user.role === 'mechanic') navigate('/mechanic');
       else navigate('/client');
